@@ -1,3 +1,5 @@
+#ifndef CONTROLPACKAGE
+#define CONTROLPACKAGE
 struct controlpackage{
   int axis_x; // forwards - backwards
   int axis_y; // up -down
@@ -6,3 +8,4 @@ struct controlpackage{
   int cam_x;  // Pan
   int cam_y;  // Tilt
 };
+#endif
