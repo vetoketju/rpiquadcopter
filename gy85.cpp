@@ -235,7 +235,7 @@ void init ()
                 return -1;
         }
 
-        int c = 6000;
+        /*int c = 6000;
         while(c--){
                 double gyro[4] = {0};
                 double acc[3];
@@ -252,5 +252,5 @@ void init ()
                                  //cout << "heading: "  << magnetoGetHeading() << "\n";
                 sleep(0.42);
         }
-        return 0;
+        return 0;*/
 }
