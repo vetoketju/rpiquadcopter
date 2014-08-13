@@ -11,11 +11,11 @@ class udp_server
   private:
     struct sockaddr_in myaddr;             /* our address */
     struct sockaddr_in remaddr;            /* remote address */
-    socklen_t addrlen = sizeof(remaddr);   /* length of addresses */
+    socklen_t addrlen;                   /* length of addresses */
     int recvlen;                           /* # bytes received */
     int fd;                                /* our socket */
     unsigned char buf[2048];           /* receive buffer */
-    bool error = false;
+    bool error;
     int port;
     controlpackage *ctrl;
 

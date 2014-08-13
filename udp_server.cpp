@@ -10,6 +10,8 @@
 using namespace std;
 
 	void udp_server::start_server(){
+	  addrlen = sizeof(remaddr);
+	  error = false;
 	  cout << "start" << endl;
 	  if(port < 1000 || port > 65535){
 	    cout << "invalid port" << endl;
