@@ -52,7 +52,7 @@ using namespace std;
 	  }
 	}
 
-	udp_server::udp_server(int port, controlpackage ctrl)
+	udp_server::udp_server(int port, controlpackage *ctrl)
 	{
 	  this->port = port;
     this->ctrl = ctrl;

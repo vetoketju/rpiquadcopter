@@ -14,7 +14,7 @@ void listen_udp(udp_server serveri){
 int main(int argc, char **argv) {
     std::cout << "RPIQuadcopter version 1.0" << std::endl;
 
-    udp_server servu(23456, ctrlpkg);
+    udp_server servu(23456, &ctrlpkg);
     thread udp_listener_thread(listen_udp,servu);
 
     // just a test

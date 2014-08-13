@@ -17,10 +17,10 @@ class udp_server
     unsigned char buf[2048];           /* receive buffer */
     bool error = false;
     int port;
-    controlpackage ctrl;
+    controlpackage *ctrl;
 
   public:
-    udp_server(int port, controlpackage ctrl);
+    udp_server(int port, controlpackage *ctrl);
     void start_server();
 };
 
