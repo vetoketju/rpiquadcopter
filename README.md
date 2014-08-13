@@ -4,7 +4,7 @@ rpiquadcopter
 
 compiling parameters:
 ```
--srd=c++11 -lpthread
+-srd=c++11 -lpthread -lWiringPi
 ```
 
 
