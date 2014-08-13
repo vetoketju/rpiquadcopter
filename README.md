@@ -2,9 +2,10 @@ rpiquadcopter
 =============
 
 
-compiling parameters:
+compiling:
 ```
--std=c++11 -lpthread -lWiringPi
+g++ -std=c++0x -lpthread main.cpp udp_server.cpp -o qcopter
+-lWiringPi
 ```
 
 
