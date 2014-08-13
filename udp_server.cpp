@@ -1,6 +1,6 @@
 #include "udp_server.h"
 #include <iostream>
-
+#include "controlpackage.cpp"
 #define BUFSIZE 2048
 
 // HOW TO SEND ME TEST MESSAGE?
@@ -8,14 +8,14 @@
 // IMPORTANT NOTE!!!: For some reason using "localhost" does not work, must send to 127.0.0.1 IP!
 
 using namespace std;
-  	
+
 	void udp_server::start_server(){
 	  cout << "start" << endl;
 	  if(port < 1000 || port > 65535){
 	    cout << "invalid port" << endl;
 	    error = true;
 	  }
-	  
+
 	  if ((fd = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
                 cout << "cannot create socket" << endl;
                 error = true;
@@ -51,8 +51,9 @@ using namespace std;
 	    cout << "end of loop" << endl;
 	  }
 	}
-	
-	udp_server::udp_server(int port)
+
+	udp_server::udp_server(int port, controlpackage ctrl)
 	{
 	  this->port = port;
+    this->ctrl = ctrl;
 	}

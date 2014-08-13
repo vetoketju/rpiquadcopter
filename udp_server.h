@@ -4,6 +4,7 @@
 #include <string.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include "controlpackage.cpp"
 
 class udp_server
 {
@@ -16,9 +17,10 @@ class udp_server
     unsigned char buf[2048];           /* receive buffer */
     bool error = false;
     int port;
-    
+    controlpackage ctrl;
+
   public:
-    udp_server(int port);
+    udp_server(int port, controlpackage ctrl);
     void start_server();
 };
 
