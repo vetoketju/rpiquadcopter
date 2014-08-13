@@ -6,8 +6,8 @@
 class gy85
 {
   private:
-    
-    
+
+
   public:
     gy85();
     void init();
@@ -15,3 +15,6 @@ class gy85
     void readMagneto(int r[3]);
     void readAccelerometer(double r[3]);
 };
+
+
+#endif // GY_85_H
