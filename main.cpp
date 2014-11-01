@@ -2,7 +2,7 @@
 #include <thread>
 #include "udp_server.h"
 #include "controlpackage.cpp"
-
+#include <softPwm.h>
 using namespace std;
 controlpackage ctrlpkg;
 
@@ -16,10 +16,14 @@ int main(int argc, char **argv) {
 
     udp_server servu(23456, &ctrlpkg);
     thread udp_listener_thread(listen_udp,servu);
-
+    gy85 gy();
+    gy.init();
     // just a test
     for(;;){
       std::this_thread::sleep_for(std::chrono::seconds(3));
+      double r[4];
+      gy85.readGyro(r);
+      cout << r[0] << ", " << r[1] << ", " << r[2] << ", " << r[3] << endl;
       cout << "slept three sec" << endl;
     }
 
