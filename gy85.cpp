@@ -215,7 +215,9 @@ void  gy85::readGyro(double r[4])
         r[3] = ri[3];
 
 }
-
+gy85::gy85(){
+  
+}
 void gy85::initAll()
 {
 
