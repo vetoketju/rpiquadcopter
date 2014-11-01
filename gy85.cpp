@@ -62,7 +62,7 @@ void readMagneto(int r[3])
         if(r[2] & (1<<16-1))
                 r[2] = r[2] - (1<<16);
 
-}
+
 
 }
 
