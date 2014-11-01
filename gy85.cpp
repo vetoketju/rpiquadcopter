@@ -36,7 +36,7 @@ int g_offz = 93;
 
 void magnetoSetScale(float gauss);
 
-bool initMagnetometer(){
+bool gy85::initMagnetometer(){
         magfd = wiringPiI2CSetup(0x1E);
         if(magfd < 0)
                 return 0;
@@ -49,7 +49,7 @@ bool initMagnetometer(){
 
 
 }
-void readMagneto(int r[3])
+void gy85::readMagneto(int r[3])
 {
         //0 on x, 1 on y, 2 on z
         r[0] = ((wiringPiI2CReadReg8(magfd, 0x03)<< 8)|  wiringPiI2CReadReg8(magfd, 0x04));
@@ -66,7 +66,7 @@ void readMagneto(int r[3])
 
 }
 
-void magnetoSetScale(float gauss)
+void gy85::magnetoSetScale(float gauss)
 {
    unsigned char value = 0;
     if(gauss == 0.88)
@@ -115,7 +115,7 @@ void magnetoSetScale(float gauss)
 }
 
 
-float magnetoGetHeading()
+float gy85::magnetoGetHeading()
 {
         float heading = 0.0;
         int d[3] = {0};
@@ -140,7 +140,7 @@ float magnetoGetHeading()
         return heading;
 }
 
-bool initAccelerometer(){
+bool gy85::initAccelerometer(){
         accfd = wiringPiI2CSetup(0x53);
         if(accfd < 0)
                 return 0;
@@ -151,7 +151,7 @@ bool initAccelerometer(){
         return 1;
 }
 
-void  readAccelerometer(double r[3])
+void  gy85::readAccelerometer(double r[3])
 {
         int re[3];
         //0 on x, 1 on y, 2 on z
@@ -180,7 +180,7 @@ void  readAccelerometer(double r[3])
 }
 
 
-bool initGyro(){
+bool gy85::initGyro(){
         gyrofd = wiringPiI2CSetup (0x68);
         if(gyrofd < 0)
                 return 0;
@@ -191,7 +191,7 @@ bool initGyro(){
         return 1;
 
 }
-void  readGyro(double r[4])
+void  gy85::readGyro(double r[4])
 {
 
         int ri[4] = {0};
@@ -216,7 +216,7 @@ void  readGyro(double r[4])
 
 }
 
-void initAll()
+void gy85::initAll()
 {
 
         if(!initGyro()){
@@ -232,7 +232,7 @@ void initAll()
 
         if(!initMagnetometer()){
               printf("Magnetometer init ep�onnistui");
-              
+
         }
 
         /*int c = 6000;
