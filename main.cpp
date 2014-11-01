@@ -35,7 +35,7 @@ int main(int argc, char **argv) {
     cout << "nollaa nyt" << endl;
     cin >> s;
     softPwmWrite(2, 40);
-    cout << "any input -> off" < endl;
+    cout << "any input -> off" << endl;
     cin >> s;
     digitalWrite(7, LOW);
     //for(;;){
