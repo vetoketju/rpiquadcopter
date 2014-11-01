@@ -23,7 +23,7 @@ int main(int argc, char **argv) {
     for(;;){
       std::this_thread::sleep_for(std::chrono::seconds(3));
       double r[4];
-      gy85.readGyro(r);
+      gy.readGyro(r);
       cout << r[0] << ", " << r[1] << ", " << r[2] << ", " << r[3] << endl;
       cout << "slept three sec" << endl;
     }
