@@ -27,7 +27,7 @@ int main(int argc, char **argv) {
     cout << "Laita jotain niin rele paalle" << endl;
     string s; cin >> s;
     digitalWrite(7, HIGH);
-    //std::this_thread::sleep_for(std::chrono::seconds(1));
+    std::this_thread::sleep_for(std::chrono::seconds(1));
     softPwmCreate(2, 100, 100);
     std::this_thread::sleep_for(std::chrono::seconds(2));
 
