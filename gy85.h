@@ -5,7 +5,7 @@
 
 class gy85
 {
-  private:
+  
 
 
   public:
