@@ -17,7 +17,7 @@ void listen_udp(udp_server serveri){
 
 int main(int argc, char **argv) {
     std::cout << "RPIQuadcopter version 1.0" << std::endl;
-
+    wiringPiSetup () ;
     udp_server servu(23456, &ctrlpkg);
     thread udp_listener_thread(listen_udp,servu);
     gy85 gy;
@@ -27,7 +27,7 @@ int main(int argc, char **argv) {
     cout << "Laita jotain niin rele paalle" << endl;
     string s; cin >> s;
     digitalWrite(7, HIGH);
-    std::this_thread::sleep_for(std::chrono::seconds(2));
+    //std::this_thread::sleep_for(std::chrono::seconds(2));
     cin >> s;
     digitalWrite(7, LOW);
     //for(;;){
