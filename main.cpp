@@ -21,13 +21,21 @@ int main(int argc, char **argv) {
     udp_server servu(23456, &ctrlpkg);
     thread udp_listener_thread(listen_udp,servu);
     gy85 gy;
-    gy.initAll();
+    gy.initAll();100
     pinMode(7, OUTPUT); //reletta varten
     // just a test
     cout << "Laita jotain niin rele paalle" << endl;
     string s; cin >> s;
     digitalWrite(7, HIGH);
-    //std::this_thread::sleep_for(std::chrono::seconds(2));
+    //std::this_thread::sleep_for(std::chrono::seconds(1));
+    softPwmCreate(2, 100, 100);
+    std::this_thread::sleep_for(std::chrono::seconds(2));
+
+    softPwmWrite(2, 0);
+    cout << "nollaa nyt" << endl;
+    cin >> s;
+    softPwmWrite(2, 40);
+    cout << "any input -> off" < endl;
     cin >> s;
     digitalWrite(7, LOW);
     //for(;;){
