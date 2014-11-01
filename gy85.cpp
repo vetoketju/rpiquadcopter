@@ -221,18 +221,18 @@ void initAll()
 
         if(!initGyro()){
                 printf("Gyron init ep�onnistui, tarkista gpio load i2c");
-                return -1;
+
 
         }
 
         if(!initAccelerometer()){
                 printf("Accelerometerin init ep�onnistui");
-                return -1;
+
         }
 
         if(!initMagnetometer()){
               printf("Magnetometer init ep�onnistui");
-                return -1;
+              
         }
 
         /*int c = 6000;
