@@ -21,7 +21,7 @@ int main(int argc, char **argv) {
     udp_server servu(23456, &ctrlpkg);
     thread udp_listener_thread(listen_udp,servu);
     gy85 gy;
-    gy.initAll();100
+    gy.initAll();
     pinMode(7, OUTPUT); //reletta varten
     // just a test
     cout << "Laita jotain niin rele paalle" << endl;
