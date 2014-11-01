@@ -115,11 +115,11 @@ void magnetoSetScale(float gauss)
 }
 
 
-float magnetoGetHeading()
+float gy85::magnetoGetHeading()
 {
         float heading = 0.0;
         int d[3] = {0};
-        readMagneto(d);
+        gy85::readMagneto(d);
         d[0] *= m_scale;
         d[1] *= m_scale;
         d[2] *= m_scale;

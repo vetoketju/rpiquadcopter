@@ -5,7 +5,7 @@
 
 class gy85
 {
-  
+
 
 
   public:
@@ -13,6 +13,7 @@ class gy85
     void initAll();
     void readGyro(double r[4]);
     void readMagneto(int r[3]);
+    float magnetoGetHeading();
     void readAccelerometer(double r[3]);
 };
 
