@@ -18,7 +18,7 @@ int main(int argc, char **argv) {
     udp_server servu(23456, &ctrlpkg);
     thread udp_listener_thread(listen_udp,servu);
     gy85 gy();
-    gy.init();
+    gy.initAll();
     // just a test
     for(;;){
       std::this_thread::sleep_for(std::chrono::seconds(3));

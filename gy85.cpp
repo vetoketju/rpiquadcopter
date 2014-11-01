@@ -216,7 +216,7 @@ void  readGyro(double r[4])
 
 }
 
-void init ()
+void initAll()
 {
 
         if(!initGyro()){

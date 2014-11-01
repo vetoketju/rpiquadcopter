@@ -10,7 +10,7 @@ class gy85
 
   public:
     gy85();
-    void init();
+    void initAll();
     void readGyro(double r[4]);
     void readMagneto(int r[3]);
     void readAccelerometer(double r[3]);
