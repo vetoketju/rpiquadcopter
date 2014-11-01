@@ -1,5 +1,5 @@
-#ifndef GY_85_H
-#define GY_85_H
+#ifndef GY85_H
+#define GY85_H
 #include <stdio.h>
 
 
@@ -17,4 +17,4 @@ class gy85
 };
 
 
-#endif // GY_85_H
+#endif // GY85_H
