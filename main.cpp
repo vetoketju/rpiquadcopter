@@ -17,7 +17,7 @@ void listen_udp(udp_server serveri){
 //KATSO PIGPIO
 int main(int argc, char **argv) {
     std::cout << "RPIQuadcopter version 1.0" << std::endl;
-
+    wiringPiSetup () ;
     udp_server servu(23456, &ctrlpkg);
     thread udp_listener_thread(listen_udp,servu);
     gy85 gy;
