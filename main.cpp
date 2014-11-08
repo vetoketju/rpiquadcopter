@@ -26,7 +26,7 @@ int main(int argc, char **argv) {
     if (gpioInitialise() < 0){
         cout << "pigpio initialisointi ei onnistunut" << endl;
         gpioTerminate();
-        return -1:
+        return -1;
     }
 
    // Set out ESC pins to output. TODO: Vaiha noi numerot, niin että ne definataan ylhäällä!
