@@ -25,7 +25,7 @@ int main(int argc, char **argv) {
     pinMode(7, OUTPUT); //reletta varten
     if (gpioInitialise() < 0){
         cout << "pigpio initialisointi ei onnistunut" << endl;
-        gpioTerminate():
+        gpioTerminate();
         return -1:
     }
 
@@ -52,7 +52,7 @@ int main(int argc, char **argv) {
     cout << "any input -> off" << endl;
     cin >> s;
     digitalWrite(7, LOW);//rele pois
-    gpioTerminate():
+    gpioTerminate();
     //for(;;){
       //std::this_thread::sleep_for(std::chrono::seconds(3));
       //double r[4];
