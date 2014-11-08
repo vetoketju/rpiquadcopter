@@ -49,7 +49,28 @@ void exitMotors(){
   std::this_thread::sleep_for(std::chrono::seconds(1));
   gpioWrite(RELAY_PIN, 0);
 }
-
+void mainloop(){
+    cout << "e to exit, w to add more power, s to give less power" << endl;
+    int pwm = 700;
+    while(true){
+        cin >> s;
+        if(s[0] == 'e'){
+            break;
+        }
+        else if(s[0] == 'w'){
+            pwm+=100;
+            pwm = min(pwm, 2000);
+        }
+        else if(s[0] == 's'){
+            pwm-=100;
+            pwm = max(pwm, 700);
+        }
+        gpioServo(BR_PIN, pwm);
+        gpioServo(BL_PIN, pwm);
+        gpioServo(FR_PIN, pwm);
+        gpioServo(FL_PIN, pwm);
+    }
+}
 int main(int argc, char **argv) {
     std::cout << "RPIQuadcopter version 1.0" << std::endl;
 
@@ -67,30 +88,8 @@ int main(int argc, char **argv) {
     cout << "Press any key to init motors" << endl;
     string s; cin >> s;
     initMotors();
-    cout << "e to exit, w to add more power, s to give less power" << endl;
-    bool flag = true;
-    int pwm = 700;
-    while(flag){
-        cin >> s;
-        if(s[0] == 'e'){
-            flag = false;
-        }
-        else if(s[0] == 'w'){
-            pwm+=100;
-            pwm = min(pwm, 2000);
-        }
-        else if(s[0] == 's'){
-            pwm-=100;
-            pwm = max(pwm, 700);
-        }
-        gpioServo(BR_PIN, pwm);
-        gpioServo(BL_PIN, pwm);
-        gpioServo(FR_PIN, pwm);
-        gpioServo(FL_PIN, pwm);
-    }
-
-
-
+    cout << "Now entering mainloop" << endl;
+    mainloop();
 
 
     exitMotors();
@@ -103,5 +102,5 @@ int main(int argc, char **argv) {
     //  cout << "slept three sec" << endl;
     //}
 
-
+    return 0;
 }
