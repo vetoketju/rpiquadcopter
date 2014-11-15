@@ -13,17 +13,19 @@ class udp_server
   private:
     struct sockaddr_in myaddr;             /* our address */
     struct sockaddr_in remaddr;            /* remote address */
-    socklen_t addrlen;                   /* length of addresses */
+    socklen_t addrlen = sizeof(remaddr);   /* length of addresses */
     int recvlen;                           /* # bytes received */
     int fd;                                /* our socket */
     unsigned char buf[2048];           /* receive buffer */
-    bool error;
+    bool error = false;
     int port;
-    controlpackage *ctrl;
-
+    controlpackage *pkg;
+    bool parsePackage(unsigned char buf[]);
+    
   public:
-    udp_server(int port, controlpackage *ctrl);
+    udp_server(int port);
     void start_server();
+    void setup(controlpackage* pkg);
 };
 
 #endif // UDP_SERVER_H
