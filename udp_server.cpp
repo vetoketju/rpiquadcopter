@@ -1,61 +1,86 @@
 #include "udp_server.h"
-#include <iostream>
-#include "controlpackage.cpp"
+
 #define BUFSIZE 2048
 
-// HOW TO SEND ME TEST MESSAGE?
 // echo -n "asd" >/dev/udp/127.0.0.1/23456
-// IMPORTANT NOTE!!!: For some reason using "localhost" does not work, must send to 127.0.0.1 IP!
 
 using namespace std;
 
+	void udp_server::setup(controlpackage* ptr_pkg){
+	  this->pkg = ptr_pkg;
+	}
+
 	void udp_server::start_server(){
-	  addrlen = sizeof(remaddr);
-	  error = false;
-	  cout << "start" << endl;
+	  cout << "starting UDP Server..." << endl;
 	  if(port < 1000 || port > 65535){
-	    cout << "invalid port" << endl;
+	    cout << "UDP Server terminated: invalid port" << endl;
 	    error = true;
 	  }
-
+	  
 	  if ((fd = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
-                cout << "cannot create socket" << endl;
+                cout << "UDP Server terminated: cannot create socket" << endl;
                 error = true;
 	  }
-	  /* bind the socket to any valid IP address and a specific port */
-
+	  
 	  memset((char *)&myaddr, 0, sizeof(myaddr));
 	  myaddr.sin_family = AF_INET;
 	  myaddr.sin_addr.s_addr = htonl(INADDR_ANY);
 	  myaddr.sin_port = htons(port);
 
 	  if (bind(fd, (struct sockaddr *)&myaddr, sizeof(myaddr)) < 0) {
-                cout << "port bind failed" << endl;
+                cout << "UDP Server terminated: port bind failed" << endl;
                 error = true;
 	  }
 
-	 // std::thread
-	  if(error == true){cout << "some error occured" << endl;}
-	  else { cout << "no errors" << endl; }
-	  /* now loop, receiving data and printing what we received */
+	  if(error == true){cout << "UDP Server terminated: some error occured" << endl;}
+	  else { cout << "UDP Server running" << endl; }
+	  
 	  if(error == false){
+	    
 	    for (;;) {
-		  cout << "waiting on port: " << port << endl;
 		  recvlen = recvfrom(fd, buf, BUFSIZE, 0, (struct sockaddr *)&remaddr, &addrlen);
-		  cout << "something received" << endl;
-		  cout << "received message with sizeof "<< recvlen << endl;
-		  if (recvlen > 0) {
-			  buf[recvlen] = 0;
-			  cout << "message: " << buf << endl;
-			  //printf("received message: \"%s\"\n", buf);
+		  if(recvlen != 8){
+		    cout << "UDP Server info: Invalid package length" <<endl;
+		  }else{
+			if(udp_server::parsePackage(buf)){
+			  //cout << "parse ok" << endl;
+			}else{
+			  //cout << "parse failed" << endl;
+			}
 		  }
 	    }
-	    cout << "end of loop" << endl;
+	    cout << "UDP Server terminated" << endl;
 	  }
+	
+	  
 	}
-
-	udp_server::udp_server(int port, controlpackage *ctrl)
+	
+	bool udp_server::parsePackage(unsigned char buf[]){
+		if(sizeof(buf) != 8) return 0;
+	  
+		int chk = 0;
+		for(int i = 0; i < 7; i++){
+		  chk += buf[i] * (i+1);
+		}
+		
+		if(buf[7] != chk % 255){
+		  cout << "Invalid checkdigit" << endl;
+		  return 0;
+		}
+		
+		pkg->command = buf[0];
+		pkg->axis_x = buf[1];
+		pkg->axis_y = buf[2];
+		pkg->axis_z = buf[3];
+		pkg->axis_r = buf[4];
+		pkg->cam_x = buf[5];
+		pkg->cam_y = buf[6];
+		pkg->timestamp = chrono::duration_cast<chrono::milliseconds>(chrono::system_clock::now().time_since_epoch()).count();
+		
+		return 1;
+	}
+	
+	udp_server::udp_server(int port)
 	{
 	  this->port = port;
-    this->ctrl = ctrl;
 	}
