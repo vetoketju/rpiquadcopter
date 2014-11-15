@@ -12,10 +12,11 @@
 #define FL_PIN 18
 #define RELAY_PIN 4
 using namespace std;
-controlpackage ctrlpkg;
+
+controlpackage pkg;
 
 void listen_udp(udp_server serveri){
-  cout << "starting UDP-listener thread" << endl;
+  serveri.setup(&pkg);
   serveri.start_server();
 }
 //wiriping softpwm EI TOIMI
@@ -74,7 +75,7 @@ void mainloop(){
 int main(int argc, char **argv) {
     std::cout << "RPIQuadcopter version 1.0" << std::endl;
 
-    udp_server servu(23456, &ctrlpkg);
+    udp_server servu(23456);
     thread udp_listener_thread(listen_udp,servu);
     wiringPiSetup () ; //gy85 vaatii vielä, vaihda joskus pigpio?
     gy85 gy;
@@ -95,11 +96,12 @@ int main(int argc, char **argv) {
     exitMotors();
     gpioTerminate();
     //for(;;){
-      //std::this_thread::sleep_for(std::chrono::seconds(3));
+      //std::this_thread::sleep_for(std::chrono::milliseconds(500)); // 500 MS
+        // prints out timestamp,
+      //cout << "timestamp: " << pkg.timestamp << endl;
       //double r[4];
       //gy.readGyro(r);
       //cout << r[0] << ", " << r[1] << ", " << r[2] << ", " << r[3] << endl;
-    //  cout << "slept three sec" << endl;
     //}
 
     return 0;
