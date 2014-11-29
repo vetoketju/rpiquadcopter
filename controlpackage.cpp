@@ -8,6 +8,6 @@ struct controlpackage{
   char axis_r; // Rotation
   char cam_x;  // Pan
   char cam_y;  // Tilt
-  unsigned long timestamp;
+  unsigned long long timestamp;
 };
 #endif

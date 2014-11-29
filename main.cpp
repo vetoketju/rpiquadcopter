@@ -5,6 +5,9 @@
 #include "controlpackage.cpp"
 #include <pigpio.h>
 #include <wiringPi.h>
+#include <unistd.h>
+#include <chrono>
+
 
 #define BR_PIN 23
 #define BL_PIN 24
@@ -14,7 +17,13 @@
 using namespace std;
 
 controlpackage pkg;
-
+bool is_on = false;
+int pwm_br = 700;
+int pwm_bl = 700;
+int pwm_fr = 700;
+int pwm_fl = 700;
+unsigned long long last_received;
+unsigned long long last_time;
 void listen_udp(udp_server serveri){
   serveri.setup(&pkg);
   serveri.start_server();
@@ -50,27 +59,79 @@ void exitMotors(){
   std::this_thread::sleep_for(std::chrono::seconds(1));
   gpioWrite(RELAY_PIN, 0);
 }
+void applyChanges(){
+    if(pkg.axis_y < 0){
+        pwm_br = max(700, pwm_br-10);
+        pwm_bl = max(700, pwm_bl-10);
+        pwm_fr = max(700, pwm_fr-10);
+        pwm_fl = max(700, pwm_fl-10);
+    }
+    else if(pkg.axis_y > 0){
+        pwm_br = min(2000, pwm_br+10);
+        pwm_bl = min(2000, pwm_bl+10);
+        pwm_fr = min(2000, pwm_fr+10);
+        pwm_fl = min(2000, pwm_fl+10);
+    }
+
+    //we should balance here or something
+}
+void balance(){
+
+
+    //we should balance here or something
+}
 void mainloop(){
     cout << "e to exit, w to add more power, s to give less power" << endl;
-    int pwm = 700;
+
     while(true){
-        cin >> s;
-        if(s[0] == 'e'){
+        unsigned long long time_now = chrono::duration_cast<chrono::milliseconds>(chrono::system_clock::now().time_since_epoch()).count();
+        if(time_now - last_time < 50){
+            std::this_thread::sleep_for(std::chrono::milliseconds(50-(time_now - last_time)));
+        }
+        last_time =chrono::duration_cast<chrono::milliseconds>(chrono::system_clock::now().time_since_epoch()).count();
+        if(pkg.command == 1){
+            is_on  = true;
+        }
+        else if(pkg.command == 2){
+            is_on = false;
             break;
         }
-        else if(s[0] == 'w'){
-            pwm+=100;
-            pwm = min(pwm, 2000);
+        else if(pkg.command == 3){
+            //TODO: add calibrating
         }
-        else if(s[0] == 's'){
-            pwm-=100;
-            pwm = max(pwm, 700);
+        else if(pkg.command == 4){
+            //TODO: camera on
         }
-        gpioServo(BR_PIN, pwm);
-        gpioServo(BL_PIN, pwm);
-        gpioServo(FR_PIN, pwm);
-        gpioServo(FL_PIN, pwm);
+        else if(pkg.command == 5){
+            //TODO: camera off
+        }
+        if(!is_on){
+            //Waiting till the first packet from controller is recieved
+            continue;
+        }
+
+
+        if(last_received == pkg.timestamp && time_now - pkg.timestamp > 3000){
+            cout << "No communication in last 3 seconds\nshutting down" << endl;
+            break;
+        }
+        else if(last_received == pkg.timestamp){
+            balance();
+            continue;
+        }
+
+        //All checks are done and the copter must be stabilized and control applied
+        last_received = pkg.timestamp;
+        //Let's apply the changes from controller, and stabilize
+        applyChanges();
+        balance();
+        gpioServo(BR_PIN, pwm_br);
+        gpioServo(BL_PIN, pwm_bl);
+        gpioServo(FR_PIN, pwm_fr);
+        gpioServo(FL_PIN, pwm_fl);
     }
+
+    cout << "exiting mainloop" << endl;
 }
 int main(int argc, char **argv) {
     std::cout << "RPIQuadcopter version 1.0" << std::endl;
