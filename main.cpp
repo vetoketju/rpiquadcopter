@@ -86,10 +86,11 @@ void mainloop(){
     while(true){
         unsigned long long time_now = chrono::duration_cast<chrono::milliseconds>(chrono::system_clock::now().time_since_epoch()).count();
         if(time_now - last_time < 50){
-            std::this_thread::sleep_for(std::chrono::milliseconds(50-(time_now - last_time)));
+            std::this_thread::sleep_for(std::chrono::milliseconds(50-(time_now-last_time)));
         }
         last_time =chrono::duration_cast<chrono::milliseconds>(chrono::system_clock::now().time_since_epoch()).count();
         if(pkg.command == 1){
+            cout << "copter is on" << endl;
             is_on  = true;
         }
         else if(pkg.command == 2){
